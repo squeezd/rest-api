@@ -1,19 +1,28 @@
 import { swaggerUI } from '@hono/swagger-ui';
-import { Hono } from 'hono';
+import { OpenAPIHono } from '@hono/zod-openapi';
 import { logger } from 'hono/logger';
-import { router } from './routes/urls';
+import { errorHandler, notFoundHandler, urlRouter } from './routes';
 
-const app = new Hono();
+const app = new OpenAPIHono();
 
 /**
  * logger
  */
 app.use(logger());
 
+app.notFound(notFoundHandler);
+app.onError(errorHandler);
+
+app.openAPIRegistry.registerComponent('securitySchemes', 'ApiKeyAuth', {
+  type: 'apiKey',
+  in: 'header',
+  name: 'Authorization',
+});
+
 /**
  * OpenAPI doc
  */
-router.doc('/doc', {
+app.doc('/json', {
   openapi: '3.0.0',
   info: {
     title: 'Sqzd REST API',
@@ -21,16 +30,19 @@ router.doc('/doc', {
   },
 });
 
-app.route('/', router);
-
 /**
  * register swagger ui
  */
 app.get(
   '/swagger',
   swaggerUI({
-    url: '/doc',
+    url: '/json',
   })
 );
+
+/**
+ * register app routers
+ */
+app.route('/urls', urlRouter);
 
 export default app;

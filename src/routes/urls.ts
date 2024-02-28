@@ -1,11 +1,22 @@
 import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
+import { ensureAPIKey } from '../middlewares/ensureAPIKey';
+import { ensureFirebaseApp } from '../middlewares/ensureFirebaseApp';
+import { URLEnv } from '../types/urls';
 
-export const router = new OpenAPIHono();
+export const router = new OpenAPIHono<URLEnv>();
+
+router.use(ensureAPIKey());
+router.use(ensureFirebaseApp());
 
 const createURLRoute = createRoute({
   method: 'post',
-  path: '/urls',
+  path: '/',
   tags: ['URLs'],
+  security: [
+    {
+      ApiKeyAuth: [],
+    },
+  ],
   request: {
     body: {
       required: true,
@@ -43,12 +54,15 @@ const createURLRoute = createRoute({
 });
 
 router.openapi(createURLRoute, async function (c) {
-  return {
-    format: 'json',
-    data: {
+  const apiKey = c.get('apiKey');
+  console.log(apiKey);
+
+  return c.json(
+    {
       data: {
         url: '',
       },
     },
-  };
+    200
+  );
 });
