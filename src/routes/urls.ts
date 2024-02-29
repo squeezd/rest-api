@@ -53,7 +53,7 @@ const createURLRoute = createRoute({
 });
 
 router.openapi(createURLRoute, async function (c) {
-  const apiKey = c.get('apiKey');
+  const apiKey = c.var.apiKey;
   console.log(apiKey);
 
   return c.json(
