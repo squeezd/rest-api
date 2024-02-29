@@ -1,6 +1,6 @@
+import { URLEnv } from '@src/types/urls';
 import { MiddlewareHandler } from 'hono';
 import { HTTPException } from 'hono/http-exception';
-import { URLEnv } from '../types/urls';
 
 export function ensureAPIKey(): MiddlewareHandler<URLEnv> {
   return async function (c, next) {

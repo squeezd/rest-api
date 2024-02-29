@@ -10,6 +10,12 @@
     "types": [
       "@cloudflare/workers-types"
     ],
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": [
+        "./src/*"
+      ]
+    },
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx"
   },

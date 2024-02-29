@@ -1,2 +1,2 @@
-export * from './ensureAPIKey';
-export * from './ensureFirebaseApp';
+export * from '@src/middlewares/ensureAPIKey';
+export * from '@src/middlewares/ensureFirebaseApp';

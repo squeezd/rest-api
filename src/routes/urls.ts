@@ -1,7 +1,6 @@
 import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
-import { ensureAPIKey } from '../middlewares/ensureAPIKey';
-import { ensureFirebaseApp } from '../middlewares/ensureFirebaseApp';
-import { URLEnv } from '../types/urls';
+import { ensureAPIKey, ensureFirebaseApp } from '@src/middlewares';
+import { URLEnv } from '@src/types/urls';
 
 export const router = new OpenAPIHono<URLEnv>();
 

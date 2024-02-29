@@ -1,5 +1,5 @@
+import { initFirebaseApp } from '@src/services/firebase';
 import { MiddlewareHandler } from 'hono';
-import { initFirebaseApp } from '../../services/firebase';
 
 export function ensureFirebaseApp(): MiddlewareHandler {
   return async function ({ env }, next) {
