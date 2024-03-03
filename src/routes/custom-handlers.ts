@@ -12,9 +12,15 @@ export const notFoundHandler: NotFoundHandler<Env> = async function (c) {
 
 export const errorHandler: ErrorHandler<Env> = async function (err, c) {
   if (err instanceof HTTPException) {
+    let message = err.message;
+
+    if (err.status === 500) {
+      message = 'internal server error';
+    }
+
     return c.json(
       {
-        message: err.message,
+        message,
       },
       err.status
     );

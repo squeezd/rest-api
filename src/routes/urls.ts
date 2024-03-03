@@ -4,8 +4,8 @@ import { URLEnv } from '@src/types/urls';
 
 export const router = new OpenAPIHono<URLEnv>();
 
-router.use(ensureAPIKey());
 router.use(ensureFirebaseApp());
+router.use(ensureAPIKey());
 
 const createURLRoute = createRoute({
   method: 'post',
